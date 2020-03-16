@@ -2,26 +2,13 @@
 
 class IndexController
 {
-    /*
-     * $blogManager model instance
-     */
     private $blogManager;
-    
-    /*
-     * $blogManager model instance
-     */
     private $userManager;
 
     public function __construct($blogModel, $userModel)
     {
         $this->blogManager = $blogModel;
         $this->userManager = $userModel;
-    }
-
-    public function indexAction($request)
-    {
-        $View = new BlogView($this->blogManager);
-        $View->indexView();
     }
 
     public function aboutAction()

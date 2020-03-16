@@ -28,48 +28,4 @@ class BlogView
         $this->content = ob_get_clean();
     }
 
-    public function indexView()
-    {
-        $this->content = "Blog sample.
-        Click <a href ='/?action=about'>here</a> to see";
-    }
-
-    public function outputHelper()
-    {
-        $html = '<form action="?action=convert" method="post">
-					<input name="currency" type="hidden" value="' . $this->currency . '" />
-					<label>' . $this->currency . ':</label>
-					<input name="amount" type="text" value="' . $this->converter->get($this->currency) . '" />
-					<input type="submit" value="Convert" />				
-				</form>';
-
-        return $html;
-    }
-
-}
-
-class PostView
-{
-
-    private $converter;
-    private $currency;
-
-    public function __construct(BlogManager $converter, $currency)
-    {
-        $this->converter = $converter;
-        $this->currency = $currency;
-    }
-
-    public function outputHelper()
-    {
-        $html = '<form action="?action=convert" method="post">
-					<input name="currency" type="hidden" value="' . $this->currency . '" />
-					<label>' . $this->currency . ':</label>
-					<input name="amount" type="text" value="' . $this->converter->get($this->currency) . '" />
-					<input type="submit" value="Convert" />				
-				</form>';
-
-        return $html;
-    }
-
 }

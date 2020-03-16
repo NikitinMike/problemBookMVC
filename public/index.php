@@ -9,10 +9,6 @@ if (isset($_GET['action']))
     // router 
     switch ($_GET['action'])
     {
-        case 'about':
-            $controller_name = 'IndexController';
-            $action = 'aboutAction';
-            break;
         
         case 'post':
             $controller_name = 'BlogController';
@@ -29,14 +25,17 @@ if (isset($_GET['action']))
             $action = 'addpostsubmittedAction';
             break;
         
-        case 'addcomment':
+        case 'setorder':
+            $GLOBALS['page'] = 0;
+            $order = "";
+            if( $_COOKIE["order"] === $_GET['order']) 
+                $order = $_COOKIE["order"] . ' desc ';
+            else
+                $order = $_GET['order'];
+            setcookie("order" ,$order);
+            $GLOBALS['order'] = $order;
             $controller_name = 'BlogController';
-            $action = 'addcommentAction';
-            break;
-        
-        case 'addcommentsubmitted':
-            $controller_name = 'BlogController';
-            $action = 'addcommentsubmittedAction';
+            $action = 'indexAction';
             break;
         
         case 'login':
@@ -54,17 +53,15 @@ if (isset($_GET['action']))
             $action = 'logoutAction';
             break;
 
-        case 'list':
-        default:
-            $controller_name = 'BlogController';
-            $action = 'indexAction';
-            break;
     }
-} else
-{
+} else {
+    // setcookie("order", "");
+    $GLOBALS['page'] = (isset($_GET['page']))? $_GET['page'] : 0;
+    $GLOBALS['order'] = $_COOKIE["order"];
     $controller_name = 'BlogController';
     $action = 'indexAction';
 }
+// print_r($GLOBALS);    
 require '../Application/Controller/' . $controller_name . '.php';
 
 require '../Application/Model/BlogManager.php';

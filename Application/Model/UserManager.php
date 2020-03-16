@@ -15,18 +15,14 @@ class UserManager
     public function __construct($appConfig = null)
     {
         session_start();
-        
         $this->connectionParam = $appConfig['connection']['params'];
         $this->db = new mysqli($this->connectionParam['host'], $this->connectionParam['user'], $this->connectionParam['password'], $this->connectionParam['dbname']);
-        
-        
         if (mysqli_connect_errno())
         {
             printf("Connect failed: %s\n", mysqli_connect_error());
             exit();
         }
     }
-    
 
     /**
      * Get user by it's credentials

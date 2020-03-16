@@ -1,49 +1,56 @@
-<h1>Blog Posts</h1>
+<h1>Список задач</h1>
 <div class="row">
+
+    Порядок сортировки
+    <ul id="">
+        <li><a href='/?action=setorder&order=username'>Имя</a></li>
+        <li><a href='/?action=setorder&order=email'>Email</a></li>
+        <li><a href='/?action=setorder&order=status'>Статус</a></li>
+    </ul>
 
     <div class="col-md-8">
 
-        <?php
-        $is_mini_mode = true;
+    <?php
+        $is_mini_mode = false;
         $escapeHtml = 'htmlspecialchars';
-        $posts = $variables;
-                
-        foreach ($posts as $postArray)
+        $page = $GLOBALS["page"];
+        $posts = array_chunk ( $variables, 3);
+                 
+        foreach ($posts[$page] as $postArray)
         {
-            if ($is_mini_mode)
-            {
-                ?>
+            if ($is_mini_mode) {
+    ?>
                 <h3>
                     <a href="/?action=post&id=<?= $postArray['id'] ?>">
-                        <?php 
-                        echo $escapeHtml(date('d.m.Y', strtotime($postArray['date_created']))).": ";
-                        echo $escapeHtml($postArray['title']); 
-                        ?>
+                        <?= $escapeHtml($postArray['email']) ?>
                     </a>    
                 </h3>
-                <?php
-            } else
-            {
-                echo '<h1>' . $escapeHtml($postArray['title']) . '</h1>';
-            }
-            ?>
+    <?php
+            } else echo '<h1>' . $escapeHtml($postArray['email']) . '</h1>';
+    ?>
             <div class="content">
-                <?=  substr( strip_tags($postArray['content']), 0, 300);
-            ?>
+                <?=  substr( strip_tags($postArray['content']), 0, 300) ?>
             </div>
-            <p>
-                Author: <?php
-                echo $escapeHtml($postArray['author']);
-                
-                echo $is_mini_mode ? " | " : "<br />";
-                ?>
-                Published: <?php echo $escapeHtml(date('jS \of F Y', strtotime($postArray['date_created']))); 
-                ?>   
-            </p> 
-            <?php
-            echo $is_mini_mode ? "<hr />" : "";
+            <h4>
+                Автор: <?= $escapeHtml($postArray['username']) ?>
+                <?= $is_mini_mode ? " | " : "<br />" ?>
+                Опубликовано: <?= $escapeHtml(date('jS \of F Y', strtotime($postArray['date_created']))) ?>
+            </h4> 
+            <?= $postArray['status']?"отредактировано администратором":"" ?>
+            <?= $is_mini_mode ? "<hr />" : "" ?> 
+    <?php
         }
-        ?>
+    ?>
 
+        <h3>
+            <a href="/?page=<?= $page>0? $page-1:0 ?>">
+                <<<< 
+            </a>    
+            страница <?= $page+1 ?>
+            <a href="/?page=<?= (($page+1)<sizeof($posts))?$page+1:$page ?>">
+                >>>> 
+            </a>
+        </h3>
+        
     </div>
 </div>

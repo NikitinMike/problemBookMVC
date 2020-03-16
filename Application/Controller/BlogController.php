@@ -1,14 +1,7 @@
 <?php
 class BlogController
 {
-    /*
-     * $blogManager model instance
-     */
     private $blogManager;
-    
-    /*
-     * $blogManager model instance
-     */
     private $userManager;
 
     public function __construct($blogModel, $userModel)
@@ -17,11 +10,15 @@ class BlogController
         $this->userManager = $userModel;
     }
 
+    public function nextPageAction($request)
+    {        
+        var_dump($request);
+    }
+
     public function indexAction($request)
-    {
-        $posts = $this->blogManager->findAllPublishedPosts();
+    {        
         $View = new BlogView($this->blogManager);
-        $View->renderView($posts);
+        $View->renderView($this->blogManager->findAllPublishedPosts());
     }
 
     public function listAction($request)
@@ -44,26 +41,12 @@ class BlogController
         $View->renderView($request);
     }
     
-    
     public function addpostsubmittedAction($request)
     {
-        $res = null;
-        $userid = $this->userManager->is_logined();
-        if ($userid) $res = $this->blogManager->addPost($request['title'], $request['content'], $userid);
+        $res = $this->blogManager->addPost($request['username'], $request['content'], $request['email']);
         if ($res) $this->redirectAction();
         else $this->redirectAction("/?action=add&error=error");
     }
-    
-    
-    
-    public function addcommentsubmittedAction($request)
-    {
-        $res = $this->blogManager->addComment($request['name'], $request['content'], $request['post_id'], $request['email'], $request['url']);
-        if ($res) $this->redirectAction("/?action=post&id=".$request['post_id']);
-        else $this->redirectAction("/?action=post&id={$request['post_id']}&error=error");
-    }
-
-
     
     public function redirectAction($route="/")
     {
