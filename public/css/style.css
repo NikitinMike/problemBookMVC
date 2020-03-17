@@ -68,7 +68,7 @@ form ul li {
 #navbar {
   height: 30px;
   background-color: #666;
-  padding-left: 25px;
+  padding-left: 30px;
   min-width: 470px;
 }
 #navbar li {
@@ -79,7 +79,7 @@ form ul li {
 #navbar li a {
   display: block;
   padding: 6px;
-  width: 120px;
+  width: 200px;
   color: #fff;
   text-decoration: none;
   text-align: center;

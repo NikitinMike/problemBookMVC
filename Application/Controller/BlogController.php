@@ -2,7 +2,6 @@
 class BlogController
 {
     private $blogManager;
-    private $userManager;
 
     public function __construct($blogModel, $userModel)
     {
@@ -43,10 +42,8 @@ class BlogController
     
     public function addpostsubmittedAction($request)
     {
-        // print_r($request);
-        // die();
         if($request['id'])
-            $res = $this->blogManager->updatePost($request['id'], trim($request['content']), 1);
+            $res = $this->blogManager->updatePost($request['id'], trim($request['content']), isset($request['status'])?1:0);
         else
             $res = $this->blogManager->addPost($request['username'], $request['content'], $request['email']);
         if ($res) $this->redirectAction();

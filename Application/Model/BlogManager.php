@@ -70,11 +70,7 @@ class BlogManager
         if(isset($GLOBALS["order"])) $order = " ORDER by " . $GLOBALS["order"];
         $posts = array();
         $query =  " SELECT post.*, username as author  "
-                . " FROM post " 
-                // . " WHERE status > 0 " 
-                . $order
-                // . " LIMIT %s , 3 "
-                ;
+                . " FROM post " . $order ;
         // printf($query);
         $result = $this->db->query($query);
         if ($result) {
@@ -107,6 +103,7 @@ class BlogManager
             $row = $result->fetch_assoc();
             $post = array(
                 'id' => $row['id'],
+                'status' => $row['status'],
                 'email' => $row['email'],
                 'content' => $row['content'],
                 'username' => $row['username'],

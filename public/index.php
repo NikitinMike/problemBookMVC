@@ -11,19 +11,16 @@ if (isset($_GET['action']))
     {
         
         case 'post':
-            print "POST";
             $controller_name = 'BlogController';
             $action = 'postAction';
             break;
         
         case 'addpost':
-            print "addpost";
             $controller_name = 'BlogController';
             $action = 'addAction';
             break;
         
         case 'addpostsubmitted':
-            print "addpostsubmitted ";
             $controller_name = 'BlogController';
             $action = 'addpostsubmittedAction';
             break;
