@@ -25,3 +25,6 @@ my test sample
             'port' => '3306',
             'user' => 'dbuser',
             'password' => 'password',
+
+cd public/
+php -S localhost:8000
