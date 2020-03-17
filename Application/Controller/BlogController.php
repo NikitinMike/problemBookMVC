@@ -43,7 +43,12 @@ class BlogController
     
     public function addpostsubmittedAction($request)
     {
-        $res = $this->blogManager->addPost($request['username'], $request['content'], $request['email']);
+        // print_r($request);
+        // die();
+        if($request['id'])
+            $res = $this->blogManager->updatePost($request['id'], trim($request['content']), 1);
+        else
+            $res = $this->blogManager->addPost($request['username'], $request['content'], $request['email']);
         if ($res) $this->redirectAction();
         else $this->redirectAction("/?action=add&error=error");
     }

@@ -75,13 +75,14 @@ class BlogManager
                 . $order
                 // . " LIMIT %s , 3 "
                 ;
-        printf($query);
+        // printf($query);
         $result = $this->db->query($query);
         if ($result) {
             // Cycle through results
             while ($row = $result->fetch_assoc()) {
                 $posts[] = array(
                     'id' => $row['id'],
+                    'status' => $row['status'],
                     'email' => $row['email'],
                     'content' => $row['content'],
                     'username' => $row['username'],
@@ -126,5 +127,12 @@ class BlogManager
         if ($result = $this->db->query($query)) return true;
         else die($this->db->error);
     }
-    
+
+    public function updatePost($id, $content, $status) {
+        $query =  "UPDATE post SET content = '%s', `status` = %d where id = %d";
+        $query = sprintf($query, $this->db->real_escape_string($content), $status, $id);
+        if ($result = $this->db->query($query)) return true;
+        else die($this->db->error);
+    }
+        
 }

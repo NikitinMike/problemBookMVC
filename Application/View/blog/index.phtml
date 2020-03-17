@@ -11,46 +11,33 @@
     <div class="col-md-8">
 
     <?php
-        $is_mini_mode = false;
+
+        $is_admin_mode = isset($_SESSION['adminid']) AND $_SESSION['adminid']>0;
         $escapeHtml = 'htmlspecialchars';
         $page = $GLOBALS["page"];
         $posts = array_chunk ( $variables, 3);
                  
         foreach ($posts[$page] as $postArray)
-        {
-            if ($is_mini_mode) {
+        {            
+            $id = $postArray['id'];        
+            $content = strip_tags($postArray['content']);
+            if($is_admin_mode) $content = "<a href='/?action=post&id=$id'>".$content.'</a>';
     ?>
-                <h3>
-                    <a href="/?action=post&id=<?= $postArray['id'] ?>">
-                        <?= $escapeHtml($postArray['email']) ?>
-                    </a>    
-                </h3>
-    <?php
-            } else echo '<h1>' . $escapeHtml($postArray['email']) . '</h1>';
-    ?>
-            <div class="content">
-                <?=  substr( strip_tags($postArray['content']), 0, 300) ?>
-            </div>
-            <h4>
-                Автор: <?= $escapeHtml($postArray['username']) ?>
-                <?= $is_mini_mode ? " | " : "<br />" ?>
-                Опубликовано: <?= $escapeHtml(date('jS \of F Y', strtotime($postArray['date_created']))) ?>
+            <h4 align="right"><i><?= $escapeHtml($postArray['email']) ?></i></h4>
+            <div class="content"><?= $content ?></div>
+            <h4 align="right">
+                Автор <b> <?= $escapeHtml($postArray['username']) ?></b>
+                Опубликовано <b> <?= $escapeHtml(date('d/m/y',strtotime($postArray['date_created']))) ?> </b>
             </h4> 
-            <?= $postArray['status']?"отредактировано администратором":"" ?>
-            <?= $is_mini_mode ? "<hr />" : "" ?> 
+            <?= $postArray['status']>0?"<i>отредактировано администратором</i>":"" ?>
+            <hr />
     <?php
         }
     ?>
-
         <h3>
-            <a href="/?page=<?= $page>0? $page-1:0 ?>">
-                <<<< 
-            </a>    
+            <a href="/?page=<?= $page>0? $page-1:0 ?>"> <<<< </a>    
             страница <?= $page+1 ?>
-            <a href="/?page=<?= (($page+1)<sizeof($posts))?$page+1:$page ?>">
-                >>>> 
-            </a>
-        </h3>
-        
+            <a href="/?page=<?= (($page+1)<sizeof($posts))?$page+1:$page ?>"> >>>> </a>
+        </h3>        
     </div>
 </div>

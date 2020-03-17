@@ -11,16 +11,19 @@ if (isset($_GET['action']))
     {
         
         case 'post':
+            print "POST";
             $controller_name = 'BlogController';
             $action = 'postAction';
             break;
         
         case 'addpost':
+            print "addpost";
             $controller_name = 'BlogController';
             $action = 'addAction';
             break;
         
         case 'addpostsubmitted':
+            print "addpostsubmitted ";
             $controller_name = 'BlogController';
             $action = 'addpostsubmittedAction';
             break;
@@ -55,13 +58,11 @@ if (isset($_GET['action']))
 
     }
 } else {
-    // setcookie("order", "");
     $GLOBALS['page'] = (isset($_GET['page']))? $_GET['page'] : 0;
     $GLOBALS['order'] = $_COOKIE["order"];
     $controller_name = 'BlogController';
     $action = 'indexAction';
 }
-// print_r($GLOBALS);    
 require '../Application/Controller/' . $controller_name . '.php';
 
 require '../Application/Model/BlogManager.php';
@@ -71,4 +72,3 @@ $blogManager = new BlogManager($appConfig);
 $userManager = new UserManager($appConfig);
 $controller = new $controller_name($blogManager, $userManager);
 $controller->{$action}($_REQUEST);
-
